@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>PARTY SUITE</title>
+<meta name="theme-color" content="#0b0c10">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="app">
+
+  <section id="s-join" class="screen join">
+    <h1 class="logo">PARTY<span>SUITE</span></h1>
+    <p class="tag" id="join-tag">One room, every game. Pass a phone or hold your own.</p>
+
+    <label class="lbl" for="name">Your name</label>
+    <input id="name" class="inp" maxlength="14" autocomplete="nickname" placeholder="e. g. Deepak">
+
+    <button id="btn-create" class="btn primary wide">Create session</button>
+
+    <div class="or"><span>or join one</span></div>
+
+    <div class="row">
+      <input id="code" class="inp code" maxlength="4" placeholder="CODE" autocapitalize="characters" autocomplete="off" spellcheck="false">
+      <button id="btn-join" class="btn">Join</button>
+    </div>
+
+    <p id="join-err" class="err"></p>
+
+    <p class="fine" id="join-games"></p>
+  </section>
+
+  <section id="s-room" class="screen room hidden">
+    <header class="top">
+      <button id="roomcode" class="chip" type="button" title="Copy invite link">····</button>
+      <span id="net" class="dot" title="connection"></span>
+      <span class="grow"></span>
+      <button id="btn-sound" class="chip ghost" type="button" aria-label="Toggle sound">🔊</button>
+      <button id="btn-leave" class="chip ghost" type="button" aria-label="Leave">✕</button>
+    </header>
+
+    <div id="stage-lobby" class="stage hidden">
+      <p class="kicker">Session</p>
+      <h2 class="code-big" id="lobby-code">····</h2>
+
+      <div class="qrcard" id="qrcard">
+        <p class="qrlabel">scan to join</p>
+        <div class="qrbox" id="qrbox"></div>
+        <p class="qrlink" id="qrlink">point a camera at this</p>
+      </div>
+
+      <p class="kicker">Pick a game</p>
+      <div class="picks">
+        <button class="pick" id="pick-bomb" type="button" data-game="bomb">
+          <span class="pick-emoji">💣</span>
+          <span class="pick-name">Bomb Word</span>
+          <span class="pick-sub">3 lives. Say it or eat it.</span>
+        </button>
+        <button class="pick" id="pick-stop" type="button" data-game="stop">
+          <span class="pick-emoji">🎯</span>
+          <span class="pick-name">Dead Stop</span>
+          <span class="pick-sub">Stop a hidden clock on target.</span>
+        </button>
+        <button class="pick" id="pick-panic" type="button" data-game="panic">
+          <span class="pick-emoji">⚡</span>
+          <span class="pick-name">Ink Panic</span>
+          <span class="pick-sub">Tap the ink. Wrong tap, you're out.</span>
+        </button>
+        <button class="pick" id="pick-bonk" type="button" data-game="bonk">
+          <span class="pick-emoji">🌀</span>
+          <span class="pick-name">Bonk Arena</span>
+          <span class="pick-sub">Physics brawl. Don't fall.</span>
+        </button>
+        <button class="pick" id="pick-fps" type="button" data-game="fps">
+          <span class="pick-emoji">🔫</span>
+          <span class="pick-name">Deathmatch</span>
+          <span class="pick-sub">Shooter. First to 12 kills.</span>
+        </button>
+      </div>
+
+      <p class="tag" id="lobby-hint">Send the link. Needs two humans.</p>
+      <button id="btn-share" class="btn wide" type="button">Copy invite link</button>
+      <button id="btn-start" class="btn primary wide" type="button">Start game</button>
+    </div>
+
+    <div id="stage-bomb" class="stage hidden">
+      <div id="bomb" class="bomb">
+        <div class="bombrow">
+          <div class="bombemoji" id="bombemoji">💣</div>
+          <div class="letterbox">
+            <div class="kicker">contains</div>
+            <div class="letter" id="letter">A</div>
+          </div>
+        </div>
+        <div class="holder" id="holder">…</div>
+        <div class="bar"><i id="bar"></i></div>
+        <div class="clock" id="clock">--</div>
+      </div>
+
+      <form id="word-form" class="wordbar" autocomplete="off">
+        <input id="word" class="inp" placeholder="your word…" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" enterkeyhint="send" maxlength="24">
+        <button class="btn primary" id="btn-send" type="submit">PASS</button>
+      </form>
+      <p class="flash" id="flash"></p>
+    </div>
+
+    <div id="stage-stop" class="stage hidden">
+      <div class="stopcard" id="stopcard">
+        <div class="stophead">
+          <span class="kicker" id="stop-round">Round 1 of 5</span>
+          <span class="kicker" id="stop-role">watching</span>
+        </div>
+        <div class="targetlabel">TARGET</div>
+        <div class="target" id="stop-target">6.40</div>
+        <p class="stopwho" id="stop-who">…</p>
+
+        <button id="btn-go" class="bigbtn go hidden" type="button">START</button>
+        <button id="btn-hit" class="bigbtn hit hidden" type="button">STOP</button>
+
+        <p class="stophint" id="stop-hint"></p>
+      </div>
+
+      <div class="tries">
+        <div class="tryhdr">
+          <span class="kicker">This round</span>
+          <span class="kicker" id="stop-pending"></span>
+        </div>
+        <ul id="stop-tries" class="tries-list"></ul>
+      </div>
+      <p class="flash" id="stop-flash"></p>
+    </div>
+
+    <div id="stage-panic" class="stage hidden">
+      <div class="paniccard" id="paniccard">
+        <div class="stophead">
+          <span class="kicker" id="panic-round">Round 1 of 8</span>
+          <span class="kicker" id="panic-status"></span>
+        </div>
+        <div class="wordwrap" id="wordwrap">
+          <div class="bigword" id="bigword">RED</div>
+        </div>
+        <p class="stophint" id="panic-hint">Tap the INK colour, not the word.</p>
+        <div class="pads" id="panic-pads">
+          <button class="pad" id="pad-red" type="button" data-color="RED">RED</button>
+          <button class="pad" id="pad-blue" type="button" data-color="BLUE">BLUE</button>
+          <button class="pad" id="pad-green" type="button" data-color="GREEN">GREEN</button>
+          <button class="pad" id="pad-yellow" type="button" data-color="YELLOW">YELLOW</button>
+        </div>
+      </div>
+      <p class="flash" id="panic-flash"></p>
+    </div>
+
+    <div id="stage-bonk" class="stage hidden">
+      <div class="bonkhead">
+        <span class="kicker" id="bonk-round">Round 1 of 3</span>
+        <span class="kicker" id="bonk-clock">30s</span>
+      </div>
+      <div class="wrap">
+        <canvas id="arena" width="800" height="600"></canvas>
+        <div class="overlay" id="bonk-overlay"></div>
+      </div>
+      <div class="pad2">
+        <button class="pbtn" id="bk-left" type="button" aria-label="Left">◀</button>
+        <button class="pbtn" id="bk-jump" type="button" aria-label="Jump">JUMP</button>
+        <button class="pbtn" id="bk-right" type="button" aria-label="Right">▶</button>
+      </div>
+      <p class="flash" id="bonk-flash"></p>
+    </div>
+
+    <div id="stage-fps" class="stage hidden">
+      <div class="fpshead">
+        <span class="kicker" id="fps-kills">0/12</span>
+        <span class="kicker" id="fps-deaths">0 deaths</span>
+        <span class="kicker" id="fps-clock">--</span>
+      </div>
+      <div class="fpsbar"><i id="fps-hpbar"></i></div>
+      <div class="fpsview">
+        <canvas id="fps-canvas" width="480" height="320"></canvas>
+        <div class="overlay" id="fps-overlay"></div>
+      </div>
+      <div class="fpspad">
+        <div class="stick" id="fps-move"><span class="knob" id="fps-move-knob"></span></div>
+        <button class="fpsfire" id="fps-fire" type="button">FIRE</button>
+        <div class="stick" id="fps-look"><span class="knob" id="fps-look-knob"></span></div>
+      </div>
+      <p class="flash" id="fps-flash"></p>
+    </div>
+
+    <div id="stage-over" class="stage hidden">
+      <p class="kicker" id="over-kicker">Winner</p>
+      <h2 class="code-big" id="over-name">—</h2>
+      <p class="tag" id="over-sub"></p>
+      <button id="btn-again" class="btn primary wide" type="button">Back to lobby</button>
+    </div>
+
+    <h3 class="h3">Players</h3>
+    <ul id="players" class="players"></ul>
+
+    <h3 class="h3">Log</h3>
+    <ol id="feed" class="feed"></ol>
+  </section>
+
+</div>
+<script src="qr.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
