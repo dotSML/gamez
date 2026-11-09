@@ -1,1 +1,1 @@
-{"version":1,"runtime":"node24","start":"node server.mjs","port":8080,"healthCheck":"/health"}
+{"version": 1, "runtime": "node24", "start": "node server.mjs", "port": 8080, "healthCheck": "/health"}
