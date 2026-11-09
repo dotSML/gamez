@@ -72,10 +72,10 @@
           <span class="pick-name">Bonk Arena</span>
           <span class="pick-sub">Physics brawl. Don't fall.</span>
         </button>
-        <button class="pick" id="pick-fps" type="button" data-game="fps">
-          <span class="pick-emoji">🔫</span>
-          <span class="pick-name">Deathmatch</span>
-          <span class="pick-sub">Shooter. First to 12 kills.</span>
+        <button class="pick" id="pick-tanks" type="button" data-game="tanks">
+          <span class="pick-emoji">💥</span>
+          <span class="pick-name">Tanks</span>
+          <span class="pick-sub">Artillery duel. Drag to aim.</span>
         </button>
       </div>
 
@@ -168,23 +168,27 @@
       <p class="flash" id="bonk-flash"></p>
     </div>
 
-    <div id="stage-fps" class="stage hidden">
-      <div class="fpshead">
-        <span class="kicker" id="fps-kills">0/12</span>
-        <span class="kicker" id="fps-deaths">0 deaths</span>
-        <span class="kicker" id="fps-clock">--</span>
+    <div id="stage-tanks" class="stage hidden">
+      <div class="tkhead">
+        <span class="kicker" id="tk-round">Round 1 of 3</span>
+        <span class="kicker" id="tk-turn">live</span>
       </div>
-      <div class="fpsbar"><i id="fps-hpbar"></i></div>
-      <div class="fpsview">
-        <canvas id="fps-canvas" width="480" height="320"></canvas>
-        <div class="overlay" id="fps-overlay"></div>
+      <div class="tkview">
+        <canvas id="tk-canvas"></canvas>
+        <div class="overlay" id="tk-overlay"></div>
       </div>
-      <div class="fpspad">
-        <div class="stick" id="fps-move"><span class="knob" id="fps-move-knob"></span></div>
-        <button class="fpsfire" id="fps-fire" type="button">FIRE</button>
-        <div class="stick" id="fps-look"><span class="knob" id="fps-look-knob"></span></div>
+      <div class="tkpad">
+        <div class="tkgrid">
+          <button class="tkbtn up" id="tk-up" type="button" aria-label="Up">▲</button>
+          <button class="tkbtn left" id="tk-left" type="button" aria-label="Left">◀</button>
+          <button class="tkbtn fire" id="tk-fire" type="button" aria-label="Fire">●</button>
+          <button class="tkbtn right" id="tk-right" type="button" aria-label="Right">▶</button>
+          <button class="tkbtn down" id="tk-down" type="button" aria-label="Down">▼</button>
+        </div>
+        <div class="tkunits" id="tk-units"></div>
       </div>
-      <p class="flash" id="fps-flash"></p>
+      <p class="flash" id="tk-flash"></p>
+      <p class="tkhint">Two shots on screen at once. Brick breaks, steel does not.</p>
     </div>
 
     <div id="stage-over" class="stage hidden">
